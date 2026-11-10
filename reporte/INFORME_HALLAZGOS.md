@@ -1,7 +1,9 @@
 # Informe de hallazgos — ServiHogar 2.0
 
 **Asignatura:** Verificación y validación de software · **Herramienta:** Playwright (TypeScript) · **Fecha de ejecución:** 9 de noviembre de 2026
-**Versión probada:** commit 774250b del repositorio ServiHogar2.0 · **Navegador:** Chromium (el incluido con Playwright) · **Entorno:** build web de la app (Expo), con Firebase real y dos cuentas de prueba (cliente y profesional)
+**Versión probada:** commit 774250b del repositorio ServiHogar2.0 · **Navegador:** Chromium (el incluido con Playwright) ·
+**Repositorio de las pruebas:** https://github.com/JhonnyTorres/ServiHogar2.0-QA
+ **Entorno:** build web de la app (Expo), con Firebase real y dos cuentas de prueba (cliente y profesional)
 
 ## 1. Resumen
 
