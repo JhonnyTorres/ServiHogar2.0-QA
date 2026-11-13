@@ -3,7 +3,7 @@
 Automatización de **22 casos del plan de pruebas corregido** de ServiHogar 2.0
 (Verificación y validación de software). Herramienta: **Playwright** (TypeScript).
 
-- Plan corregido y tabla de cambios: `docs/Plan_de_pruebas_corregido.docx` (sección 14).
+- Plan corregido y tabla de cambios: `Plan_de_pruebas_ServiHogar2_completo.docx` (sección 14).
 - Casos automatizados con sus datos y resultados esperados: `docs/casos-automatizados.json`.
 - Datos de prueba, separados del código: `datos/datos.json`.
 - Matriz de trazabilidad (se genera tras ejecutar): `reporte/MATRIZ_TRAZABILIDAD.md`.
@@ -48,7 +48,7 @@ npm install
 ```
 
 - La app necesita su archivo `.env` con las variables `EXPO_PUBLIC_FIREBASE_*` de un proyecto de Firebase de pruebas.
-  Ese archivo no está en GitHub: [indicar aquí cómo se entrega, por ejemplo "se entrega al docente por separado"].
+  Ese archivo no está en GitHub: [se entrega al docente por separado].
 - Las cuentas de prueba (un cliente y un profesional con el correo ya verificado) también se entregan por separado.
   Sus datos van en el `.env` de este repositorio (sección 4).
 
