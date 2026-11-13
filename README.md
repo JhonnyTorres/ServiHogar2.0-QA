@@ -29,15 +29,34 @@ Cada cambio deja una copia `.orig` del archivo original.
 ## 2. Requisitos
 
 - Node.js 20 o superior y npm.
-- El repositorio de la app (`ServiHogar2.0`) con su archivo `.env` de Firebase (`EXPO_PUBLIC_FIREBASE_*`) y sus dependencias instaladas (`npm install`).
+- El repositorio de la app a probar (ver la sección 3) con su archivo `.env` de Firebase (`EXPO_PUBLIC_FIREBASE_*`) y sus dependencias instaladas.
 - Dos cuentas de prueba en Firebase con el **correo ya verificado** (la verificación por correo no se automatiza):
   un **cliente** y un **profesional** (con la categoría Electricidad y un nombre reconocible).
   Usa un proyecto de pruebas, no producción.
 
-## 3. Instalación desde cero
+## 3. Obtener la app a probar
+
+Este repositorio solo contiene las pruebas. La app es otro repositorio:
+**https://github.com/JhonnyTorres/ServiHogar2.0**
 
 ```bash
-# 1. Clonar este repositorio, por ejemplo en C:\movil-2\qa
+
+git clone https://github.com/JhonnyTorres/ServiHogar2.0.git
+cd ServiHogar2.0
+git checkout 774250b      # commit sobre el que se ejecutaron las pruebas del informe
+npm install
+```
+
+- La app necesita su archivo `.env` con las variables `EXPO_PUBLIC_FIREBASE_*` de un proyecto de Firebase de pruebas.
+  Ese archivo no está en GitHub: [indicar aquí cómo se entrega, por ejemplo "se entrega al docente por separado"].
+- Las cuentas de prueba (un cliente y un profesional con el correo ya verificado) también se entregan por separado.
+  Sus datos van en el `.env` de este repositorio (sección 4).
+
+## 4. Instalación desde cero
+
+```bash
+# 1. Clonar ESTE repositorio de pruebas, por ejemplo en C:\movil-2\qa
+
 git clone https://github.com/JhonnyTorres/ServiHogar2.0-QA.git qa
 cd qa
 
@@ -45,11 +64,11 @@ cd qa
 npm install
 npx playwright install chromium
 
-# 3. Parche web sobre la app (ajusta la ruta a tu copia de la app)
+# 3. Parche web sobre la app clonada en la sección 3 (ajusta la ruta)
 node aplicar-parche-web.mjs C:\movil-2\ServiHogar2.0
 
-# 4. Cuentas de prueba: copia .env 
-copy .env
+# 4. Cuentas de prueba: copia .env.example como .env y complétalo
+copy .env.example .env
 ```
 
 El archivo `.env` (no se sube a GitHub) lleva:
@@ -64,7 +83,7 @@ QA_PRO_CATEGORIA=Electricidad
 
 Comprobación opcional: en la carpeta de la app, `npx expo start --web` debe mostrar la pantalla de login.
 
-## 4. Ejecutar
+## 5. Ejecutar
 
 ```bash
 npm test                  # los 22 casos (levanta la app sola en el puerto 8081)
@@ -80,7 +99,7 @@ Si la app ya está corriendo: `BASE_URL=http://localhost:8081 npm test` (PowerSh
 
 Duración aproximada de la suite completa: 8 a 12 minutos (cada caso con sesión prepara sus propios datos).
 
-## 5. Estructura
+## 6. Estructura
 
 ```
 pruebas/      Scripts. Cada test lleva el ID del caso del plan: "CP-02.2 Contraseña mínima de 6 caracteres..."
@@ -99,7 +118,7 @@ reporte/      Resultados de la ejecución (se genera)
 - **Selectores:** por rol, texto visible, placeholder y `data-testid` (estrellas).
 - **Aserciones:** cada script verifica el mensaje exacto, el estado de pantalla o el conteo del caso.
 
-## 6. Casos automatizados
+## 7. Casos automatizados
 
 | Módulo | Casos |
 |---|---|
@@ -111,7 +130,7 @@ reporte/      Resultados de la ejecución (se genera)
 Valores límite: CP-02.2, CP-27.2 y CP-27.4. Negativos: CP-02.1 a CP-02.4, CP-04.4, CP-19.1, CP-19.2.
 Los casos CP-02.1 y CP-02.4 **fallan a propósito del defecto real** de la app (el registro acepta correos inválidos).
 
-## 7. Si algo falla
+## 8. Si algo falla
 
 1. Abre la traza: `npx playwright show-trace reporte/evidencias/<carpeta>/trace.zip` (o la traza `sesion-N-trace` adjunta en el reporte HTML).
 2. Revisa en el reporte HTML la captura, el video y el paso que falló.
