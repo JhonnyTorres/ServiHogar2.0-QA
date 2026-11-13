@@ -1,0 +1,222 @@
+[
+ {
+  "cp": "CP-02.1",
+  "hu": "HU-02",
+  "ca": "CA-01",
+  "criterio": "El correo debe tener un formato válido",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. En Login, tocar «Regístrate»\n2. Completar nombre y contraseña (con confirmación) con datos válidos\n3. Probar cada correo de la lista y tocar «Continuar →»",
+  "datos": "Inválidos: abc, abc@, abc@x, a b@x.com; válido: qa.valido@correo.com",
+  "esperado": "Con cada uno de los 4 correos inválidos se permanece en Registro y se muestra «El correo no tiene un formato válido» (mismo texto del Login). Con qa.valido@correo.com se avanza a «¿Cómo usarás la app?»."
+ },
+ {
+  "cp": "CP-02.2",
+  "hu": "HU-02",
+  "ca": "CA-02",
+  "criterio": "La contraseña debe tener mínimo 6 caracteres",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. En Login, tocar «Regístrate»\n2. Completar nombre y correo con datos válidos\n3. Probar cada contraseña (escrita igual en «Contraseña» y «Confirmar contraseña») y tocar «Continuar →»",
+  "datos": "Contraseñas: 12345 (5), 123456 (6), 1234567 (7)",
+  "esperado": "Con 12345 (5) aparece «La contraseña debe tener al menos 6 caracteres» y no se avanza. Con 123456 (6) y con 1234567 (7) no aparece ese mensaje y se avanza a «¿Cómo usarás la app?»."
+ },
+ {
+  "cp": "CP-02.3",
+  "hu": "HU-02",
+  "ca": "CA-03",
+  "criterio": "Los campos inválidos muestran mensajes de error claros",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. En Login, tocar «Regístrate»\n2. Dejar los 4 campos vacíos y tocar «Continuar →»\n3. Completar correo y contraseñas válidos, dejar solo el nombre vacío y tocar «Continuar →»",
+  "datos": "Caso 1: los 4 campos vacíos. Caso 2: nombre vacío y los demás campos válidos",
+  "esperado": "En ambos casos se muestra un único mensaje bajo el formulario, «Todos los campos son obligatorios», y no se avanza de pantalla."
+ },
+ {
+  "cp": "CP-02.4",
+  "hu": "HU-02",
+  "ca": "CA-04",
+  "criterio": "El registro no continúa mientras existan datos inválidos",
+  "precondiciones": "App instalada y sin sesión iniciada; Acceso a la consola de Firebase del proyecto",
+  "pasos": "1. En Registro, completar los campos con datos válidos salvo el correo: abc@\n2. Tocar «Continuar →»\n3. (Manual) Revisar Authentication y Firestore en la consola de Firebase",
+  "datos": "Correo: abc@",
+  "esperado": "Se permanece en Registro (no aparece «¿Cómo usarás la app?») y no se crea ninguna cuenta ni documento nuevo. La automatización verifica el no avance de pantalla; la ausencia de cuenta se confirma manualmente en la consola."
+ },
+ {
+  "cp": "CP-03.1",
+  "hu": "HU-03",
+  "ca": "CA-01",
+  "criterio": "Se muestran las opciones Cliente y Profesional",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. En Registro, completar los datos de entrada y tocar «Continuar →»\n2. Observar la pantalla «¿Cómo usarás la app?»",
+  "datos": "Nombre: Ana Prueba; correo: qa.valido@correo.com; contraseña: 123456",
+  "esperado": "Se muestran exactamente dos opciones: «Cliente» («Busco servicios para mi hogar») y «Profesional» («Ofrezco servicios del hogar»)."
+ },
+ {
+  "cp": "CP-04.1",
+  "hu": "HU-04",
+  "ca": "CA-01",
+  "criterio": "El sistema solicita correo y contraseña",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. Abrir la app\n2. Observar la pantalla de login",
+  "datos": "—",
+  "esperado": "Se ven los campos con placeholder «Correo electrónico» y «Contraseña» (los caracteres de la contraseña se muestran ocultos) y el botón «Iniciar sesión»."
+ },
+ {
+  "cp": "CP-04.3",
+  "hu": "HU-04",
+  "ca": "CA-03",
+  "criterio": "Las credenciales válidas permiten el acceso",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. Iniciar sesión con Cliente A\n2. Cerrar sesión e iniciar con Profesional P",
+  "datos": "Cliente A y Profesional P (credenciales de las cuentas de prueba, correo verificado)",
+  "esperado": "Cliente A: tras la pantalla «Cargando tu espacio...» ve las pestañas Home, Buscar, Mis servicios, Mensajes, Usuario y Ajustes. Profesional P: tras «Preparando tu panel...» ve Home, Solicitudes, Mensajes, Usuario y Ajustes."
+ },
+ {
+  "cp": "CP-04.4",
+  "hu": "HU-04",
+  "ca": "CA-04",
+  "criterio": "Las credenciales inválidas generan un mensaje de error",
+  "precondiciones": "App instalada y sin sesión iniciada",
+  "pasos": "1. Probar cada caso de la lista y tocar «Iniciar sesión»",
+  "datos": "Caso 1: Cliente A con contraseña incorrecta (Incorrecta123). Caso 2: correo inexistente no.existe@correo.com con contraseña 123456. Caso 3: campos vacíos",
+  "esperado": "Casos 1 y 2: se muestra «Correo o contraseña incorrectos». Caso 3: se muestra «Completa todos los campos». En los tres casos se permanece en Login."
+ },
+ {
+  "cp": "CP-06.3",
+  "hu": "HU-06",
+  "ca": "CA-03",
+  "criterio": "El usuario regresa a la pantalla de autenticación",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada)",
+  "pasos": "1. Con sesión iniciada, abrir la pestaña Ajustes\n2. Tocar «Cerrar sesión»\n3. Tocar «OK» en el aviso",
+  "datos": "—",
+  "esperado": "Aparece el aviso «Sesión cerrada 😊» con el mensaje «Has cerrado tu sesión correctamente»; al tocar «OK» se muestra el Login (campos «Correo electrónico» y «Contraseña»)."
+ },
+ {
+  "cp": "CP-10.1",
+  "hu": "HU-10",
+  "ca": "CA-01",
+  "criterio": "El cliente visualiza sus pestañas",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada)",
+  "pasos": "1. Observar la barra inferior",
+  "datos": "—",
+  "esperado": "Se ven 6 pestañas: Home, Buscar, Mis servicios, Mensajes, Usuario y Ajustes."
+ },
+ {
+  "cp": "CP-10.2",
+  "hu": "HU-10",
+  "ca": "CA-02",
+  "criterio": "El profesional visualiza sus pestañas",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería)",
+  "pasos": "1. Observar la barra inferior",
+  "datos": "—",
+  "esperado": "Se ven 5 pestañas: Home, Solicitudes, Mensajes, Usuario y Ajustes. No aparecen Buscar ni Mis servicios."
+ },
+ {
+  "cp": "CP-18.4",
+  "hu": "HU-18",
+  "ca": "CA-04",
+  "criterio": "La solicitud queda inicialmente en estado pendiente",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada); sin solicitud pendiente ni en proceso con P",
+  "pasos": "1. Abrir Buscar y tocar la categoría Electricidad\n2. En la tarjeta de P, tocar «Solicitar servicio»\n3. Escribir la descripción y el presupuesto, y tocar «Enviar solicitud»\n4. Tocar «OK» y abrir Mis servicios",
+  "datos": "Categoría: Electricidad; profesional P: Jonathan Montoya; descripción: Solicitud de prueba CP-18.4; presupuesto: 80000",
+  "esperado": "Aparece el aviso «¡Solicitud enviada!» («Jonathan Montoya recibirá tu solicitud pronto.»). En Mis servicios (filtro «Pendiente») la solicitud figura con el estado «Pendiente», y el profesional la ve en Solicitudes con «Pendientes (1)». (En Firestore: estado = pendiente, verificación manual.)"
+ },
+ {
+  "cp": "CP-19.1",
+  "hu": "HU-19",
+  "ca": "CA-01",
+  "criterio": "El sistema consulta solicitudes pendientes",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada) con una solicitud pendiente con P",
+  "pasos": "1. Buscar la categoría Electricidad y tocar «Solicitar servicio» en la tarjeta de P\n2. Escribir descripción y presupuesto, y tocar «Enviar solicitud»",
+  "datos": "Misma pareja A y P",
+  "esperado": "Aparece el aviso «Solicitud existente» con el mensaje «Ya tienes un servicio activo con este profesional. Ve a Mis servicios para ver su estado.» y no se crea otra solicitud."
+ },
+ {
+  "cp": "CP-19.2",
+  "hu": "HU-19",
+  "ca": "CA-02",
+  "criterio": "También consulta solicitudes en proceso",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada) con una solicitud en proceso con P",
+  "pasos": "1. Buscar la categoría Electricidad y tocar «Solicitar servicio» en la tarjeta de P\n2. Escribir descripción y presupuesto, y tocar «Enviar solicitud»",
+  "datos": "Misma pareja A y P",
+  "esperado": "Aparece el aviso «Solicitud existente» con el mensaje «Ya tienes un servicio activo con este profesional. Ve a Mis servicios para ver su estado.» y no se crea otra solicitud."
+ },
+ {
+  "cp": "CP-25.1",
+  "hu": "HU-25",
+  "ca": "CA-01",
+  "criterio": "Existe la opción de aceptar",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería) con una solicitud pendiente",
+  "pasos": "1. Abrir la solicitud pendiente",
+  "datos": "—",
+  "esperado": "Hay un botón Aceptar."
+ },
+ {
+  "cp": "CP-25.2",
+  "hu": "HU-25",
+  "ca": "CA-02",
+  "criterio": "Existe la opción de rechazar",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería) con una solicitud pendiente",
+  "pasos": "1. Abrir la solicitud pendiente",
+  "datos": "—",
+  "esperado": "Hay un botón Rechazar."
+ },
+ {
+  "cp": "CP-25.4",
+  "hu": "HU-25",
+  "ca": "CA-04",
+  "criterio": "Aceptar cambia el estado a en_proceso",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería) con una solicitud pendiente; Acceso a la consola de Firebase del proyecto",
+  "pasos": "1. Abrir Solicitudes (filtro «Pendientes») y tocar «Aceptar»\n2. En «Valor del servicio (COP)» escribir 80000 y tocar «Continuar»\n3. Abrir el filtro «En proceso»",
+  "datos": "Solicitud pendiente de Cliente A con presupuesto 80000; valor del servicio: 80000",
+  "esperado": "La solicitud sale de «Pendientes» y aparece en «En proceso (1)» con el botón «Marcar como finalizado»; Cliente A la ve en Mis servicios, filtro «En proceso». (En Firestore: estado = en_proceso, verificación manual.) Observación: si el valor difiere del presupuesto, la app exige un comentario de al menos 5 caracteres antes de «Continuar»."
+ },
+ {
+  "cp": "CP-25.5",
+  "hu": "HU-25",
+  "ca": "CA-05",
+  "criterio": "Rechazar cambia el estado a rechazado",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería) con otra solicitud pendiente; Acceso a la consola de Firebase del proyecto",
+  "pasos": "1. Abrir Solicitudes (filtro «Pendientes») y tocar «Rechazar»\n2. En «Rechazar solicitud» escribir el motivo y tocar «Rechazar y enviar»\n3. Abrir el filtro «Rechazados»",
+  "datos": "Solicitud pendiente de Cliente A; motivo: Motivo QA CP-25.5",
+  "esperado": "La solicitud aparece en «Rechazados» con «Motivo enviado al cliente» y el texto del motivo. Cliente A la ve en Mis servicios, filtro «Rechazado», con ese motivo. (En Firestore: estado = rechazado, verificación manual.)"
+ },
+ {
+  "cp": "CP-26.1",
+  "hu": "HU-26",
+  "ca": "CA-01",
+  "criterio": "Existe la opción de finalizar",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada) con una solicitud pendiente de Cliente A. La regla HU-19 impide tener dos solicitudes activas con el mismo profesional, por lo que el mismo servicio se observa primero pendiente y luego en proceso",
+  "pasos": "1. Abrir Solicitudes (filtro «Pendientes») y observar la tarjeta de la solicitud\n2. Tocar «Aceptar», escribir 80000 y tocar «Continuar»\n3. Abrir el filtro «En proceso» y observar la tarjeta",
+  "datos": "—",
+  "esperado": "En la solicitud pendiente se ven «Rechazar» y «Aceptar» y no existe «Marcar como finalizado». En el servicio en proceso aparece «Marcar como finalizado»."
+ },
+ {
+  "cp": "CP-26.3",
+  "hu": "HU-26",
+  "ca": "CA-03",
+  "criterio": "El estado cambia a finalizado",
+  "precondiciones": "Sesión iniciada como Profesional P (cuenta verificada, categoría plomería) con un servicio en proceso; Acceso a la consola de Firebase del proyecto",
+  "pasos": "1. Abrir Solicitudes, filtro «En proceso», y tocar «Marcar como finalizado»\n2. Escribir 80000 en el valor y tocar «Continuar»\n3. Abrir el filtro «Finalizados»",
+  "datos": "Servicio en proceso de Cliente A; valor final: 80000",
+  "esperado": "El servicio sale de «En proceso» y aparece en «Finalizados» (el conteo de «Finalizados» aumenta en 1); Cliente A lo ve en Mis servicios, filtro «Finalizado». (En Firestore: estado = finalizado, verificación manual. La factura en PDF se verifica en el dispositivo.)"
+ },
+ {
+  "cp": "CP-27.2",
+  "hu": "HU-27",
+  "ca": "CA-02",
+  "criterio": "La puntuación está entre 1 y 5 estrellas",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada) con un servicio finalizado sin calificar",
+  "pasos": "1. En Mis servicios, filtro «Finalizado», tocar «Calificar servicio» y observar «Enviar» sin elegir estrellas\n2. Elegir 1 estrella y observar «Enviar»\n3. Elegir 5 estrellas y tocar «Enviar»",
+  "datos": "0, 1 y 5 estrellas",
+  "esperado": "Con 0 estrellas el botón «Enviar» está deshabilitado y no se envía nada. Con 1 estrella y con 5 estrellas se habilita. Al enviar con 5 estrellas aparece «¡Gracias!» («Tu calificación fue registrada.»)."
+ },
+ {
+  "cp": "CP-27.4",
+  "hu": "HU-27",
+  "ca": "CA-04",
+  "criterio": "El comentario no puede superar 300 caracteres",
+  "precondiciones": "Sesión iniciada como Cliente A (cuenta verificada) con servicios finalizados sin calificar",
+  "pasos": "1. Abrir «Calificar servicio» de un servicio finalizado\n2. Escribir en «¿Cómo fue tu experiencia?» 299 caracteres y observar el contador\n3. Escribir 300 caracteres y observar el contador\n4. Intentar escribir un carácter más (el 301) y observar el contador y el texto",
+  "datos": "Comentario de 299, 300 y 301 caracteres (la letra «a» repetida; el carácter 301 es «b»), con un servicio finalizado sin calificar",
+  "esperado": "Con 299 el contador muestra «299 / 300»; con 300 muestra «300 / 300»; al intentar escribir el carácter 301 el campo conserva los 300 caracteres y el contador permanece en «300 / 300»."
+ }
+]

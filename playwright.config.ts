@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import 'dotenv/config'; // lee las cuentas de prueba de un archivo .env (ver .env.example)
 
 /**
  * Configuración de las pruebas de ServiHogar 2.0.
@@ -10,7 +11,7 @@ import { defineConfig } from '@playwright/test';
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8081';
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './pruebas',
   timeout: 90_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
@@ -25,11 +26,14 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
     viewport: { width: 420, height: 860 }, // tamaño de teléfono
-    screenshot: 'on', // evidencia de TODAS las pruebas (pasan o fallan)
-    video: process.env.PW_SIN_VIDEO ? 'off' : 'retain-on-failure', // video solo si falla
+    screenshot: 'only-on-failure', // además, cada prueba adjunta capturas de sus pasos con evidencia()
+    video: process.env.PW_VIDEO ? 'on' : 'retain-on-failure', // PW_VIDEO=1 graba TODAS las pruebas (video de una ejecución completa)
     trace: 'retain-on-failure', // traza navegable solo si falla
     channel: process.env.PW_CHANNEL || undefined, // p. ej. PW_CHANNEL=chrome para usar Chrome instalado
-    launchOptions: { args: process.env.PW_NO_SANDBOX ? ['--no-sandbox'] : [] },
+    launchOptions: {
+      args: process.env.PW_NO_SANDBOX ? ['--no-sandbox'] : [],
+      executablePath: process.env.PW_CHROMIUM || undefined, // ruta de un Chromium ya instalado (opcional)
+    },
   },
   webServer: process.env.BASE_URL
     ? undefined

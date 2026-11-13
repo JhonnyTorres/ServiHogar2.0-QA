@@ -6,14 +6,17 @@
   "scripts": {
     "parche-web": "node aplicar-parche-web.mjs",
     "test": "playwright test",
-    "test:sin-login": "playwright test --grep @sin-login",
-    "test:con-login": "playwright test --grep @con-login",
+    "test:sin-cuenta": "playwright test --grep @sin-cuenta",
+    "test:con-cuenta": "playwright test --grep @con-cuenta",
+    "test:video": "cross-env PW_VIDEO=1 playwright test",
     "reporte:html": "playwright show-report reporte/html",
-    "reporte:md": "node scripts/generar-reporte.mjs"
+    "reporte:matriz": "node scripts/generar-matriz.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.50.0",
     "@types/node": "^22.0.0",
-    "typescript": "^5.6.0"
+    "dotenv": "^18.0.10",
+    "typescript": "^5.6.0",
+    "cross-env": "^7.0.3"
   }
 }

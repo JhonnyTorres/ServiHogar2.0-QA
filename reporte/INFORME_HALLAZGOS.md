@@ -1,76 +1,77 @@
 # Informe de hallazgos — ServiHogar 2.0
 
-**Asignatura:** Verificación y validación de software · **Herramienta:** Playwright (TypeScript) · **Fecha de ejecución:** 9 de noviembre de 2026
-**Versión probada:** commit 774250b del repositorio ServiHogar2.0 · **Navegador:** Chromium (el incluido con Playwright) ·
-**Repositorio de las pruebas:** https://github.com/JhonnyTorres/ServiHogar2.0-QA
-**Entorno:** build web de la app (Expo), con Firebase real y dos cuentas de prueba (cliente y profesional)
+**Asignatura:** Verificación y validación de software · **Herramienta:** Playwright (TypeScript) · **Fecha de ejecución:** 13 de noviembre de 2026
+**Versión probada:** commit 774250b del repositorio ServiHogar2.0 · **Navegador:** Chromium (incluido con Playwright) · **Entorno:** versión web de la app (Expo), con Firebase real y dos cuentas de prueba (cliente y profesional)
 
 ## 1. Resumen
 
-| Pruebas funcionales | Pasan | Fallan | Omitidas | HU con pruebas ejecutadas |
-|---|---|---|---|---|
-| 21 (T01–T21) | 20 | 1 (T08) | 0 | **21 de 41** |
+| Casos automatizados | Pasan | Fallan | Omitidos |
+|---|---|---|---|
+| 22 (del plan de pruebas corregido) | 20 | 2 (CP-02.1, CP-02.4) | 0 |
 
-- **Bugs:** 1 (BUG-01, validación del correo en el registro).
-- **Observaciones de usabilidad:** 2 (OBS-01 y OBS-02).
-- **Discrepancia con la documentación:** 1 (DOC-01).
-- Además hay una prueba de preparación (T00) que limpia solicitudes de corridas anteriores; no es una prueba de HU y no cuenta en los totales.
+- **Defectos:** 1 (BUG-01, validación del correo en el registro), detectado por dos casos.
+- **Observaciones de usabilidad:** 2 (OBS-01, OBS-02). **Discrepancia con la documentación:** 1 (DOC-01).
+- Casos con valores límite: CP-02.2, CP-27.2 y CP-27.4. Casos negativos: 9. Todos los scripts llevan el ID del caso en su nombre.
+- Evidencia: reporte HTML de Playwright, video de la corrida completa (22 casos) y capturas/trazas de los casos fallidos.
+- Matriz de trazabilidad: `reporte/MATRIZ_TRAZABILIDAD.md`.
 
 ## 2. Alcance y limitaciones
 
-- **Cubierto:** registro y validaciones, selección de rol, inicio y cierre de sesión, navegación por rol, búsqueda por categorías, ciclo completo de un servicio (solicitar → aceptar con cotización → finalizar → historial de pagos), rechazo con motivo, bloqueo de solicitudes duplicadas, calificación y lista de chats.
-- **No cubierto con automatización** (se verifica en el dispositivo): caché SQLite y modo sin conexión, notificaciones push, cámara/galería y generación de PDF (`expo-print`).
-- La app se ejecutó en su **versión web** con un parche solo para pruebas (Firebase Auth web, simulación de SQLite y alertas visibles en pantalla). El código de Android/iOS no se modificó.
-- La verificación de correo no se puede automatizar: las cuentas de prueba tienen el correo ya verificado.
+- **Automatizado:** registro y validaciones, selección de rol, inicio y cierre de sesión, pestañas por rol, solicitudes de servicio (estado inicial, bloqueo de duplicadas), aceptar/rechazar/finalizar y calificación.
+- **No automatizable con esta herramienta** (se verifica manualmente en el dispositivo, según el plan): caché SQLite y modo sin conexión, notificaciones push, cámara/galería y generación de PDF.
+- Playwright controla navegadores, por lo que las pruebas corren sobre la **versión web de la misma app** (mismo código React Native). Se aplica un parche solo para pruebas (Firebase Auth web, simulación de SQLite, alertas visibles en el DOM y `testID` en las estrellas); el código de Android/iOS no se modifica.
+- La verificación de correo no se automatiza: las cuentas de prueba tienen el correo ya verificado.
 
-## 3. Cobertura de historias de usuario
+## 3. Resultados por caso
 
-| Prueba | HU (Jira) | Criterios | Resultado |
-|---|---|---|---|
-| T01, T02 | HU-04 Iniciar sesión | CA-04 | ✅ |
-| T03 | HU-04 | CA-01 | ✅ |
-| T04 | HU-01 Registrar usuarios | CA-01/02/03 | ✅ |
-| T05 | HU-01, HU-02 | CA-05 ; CA-03 | ✅ |
-| T06, T07 | HU-02 Validar datos de registro | CA-03/04 ; CA-02/04 | ✅ |
-| **T08** | **HU-02** | **CA-01/CA-04** | **❌ BUG-01** |
-| T09 | HU-03 Selección de rol | CA-01/02 | ✅ (ver OBS-01) |
-| T10 | HU-07, HU-08 | CA-02/03 ; CA-01 | ✅ (ver OBS-01) |
-| T11 | HU-10, HU-38, HU-39 | CA-01/03 ; CA-01 ; CA-01 | ✅ |
-| T12 | HU-10, HU-13, HU-39 | CA-02/03 ; CA-01 ; CA-01 | ✅ |
-| T13 | HU-11, HU-14 | CA-03 ; CA-01 | ✅ (ver DOC-01) |
-| T14 | HU-38 Lista de chats | CA-01/04 | ✅ |
-| T15 | HU-06 Cerrar sesión, HU-35 | CA-01/02/03 ; CA-04 | ✅ |
-| T16 | HU-18, HU-20 | CA-01/02/04 ; CA-04 | ✅ |
-| T17 | HU-24, HU-25 | CA-02 ; CA-01/04 | ✅ |
-| T18 | HU-26 Finalizar servicios | CA-01/03/04 | ✅ |
-| T19 | HU-27 Calificar servicios | CA-02 | ✅ (ver OBS-02) |
-| T20 | HU-25 | CA-02/05 | ✅ |
-| T21 | HU-19 Evitar solicitudes duplicadas | CA-02/03/04 | ✅ |
+| Caso | HU · criterio | Criterio de aceptación | Tipo | Resultado |
+|---|---|---|---|---|
+| CP-02.1 | HU-02 · CA-01 | El correo debe tener un formato válido | Negativo | ❌ BUG-01 |
+| CP-02.2 | HU-02 · CA-02 | La contraseña debe tener mínimo 6 caracteres | Límite (5/6/7) | ✅ |
+| CP-02.3 | HU-02 · CA-03 | Los campos inválidos muestran mensajes de error claros | Negativo | ✅ |
+| CP-02.4 | HU-02 · CA-04 | El registro no continúa mientras existan datos inválidos | Negativo | ❌ BUG-01 |
+| CP-03.1 | HU-03 · CA-01 | Se muestran las opciones Cliente y Profesional | Positivo | ✅ |
+| CP-04.1 | HU-04 · CA-01 | El sistema solicita correo y contraseña | Positivo | ✅ |
+| CP-04.3 | HU-04 · CA-03 | Las credenciales válidas permiten el acceso | Positivo | ✅ |
+| CP-04.4 | HU-04 · CA-04 | Las credenciales inválidas generan un mensaje de error | Negativo | ✅ |
+| CP-06.3 | HU-06 · CA-03 | El usuario regresa a la pantalla de autenticación | Positivo | ✅ |
+| CP-10.1 | HU-10 · CA-01 | El cliente visualiza sus pestañas | Positivo | ✅ |
+| CP-10.2 | HU-10 · CA-02 | El profesional visualiza sus pestañas | Positivo | ✅ |
+| CP-18.4 | HU-18 · CA-04 | La solicitud queda inicialmente en estado pendiente | Positivo | ✅ |
+| CP-19.1 | HU-19 · CA-01 | El sistema consulta solicitudes pendientes | Negativo | ✅ |
+| CP-19.2 | HU-19 · CA-02 | También consulta solicitudes en proceso | Negativo | ✅ |
+| CP-25.1 | HU-25 · CA-01 | Existe la opción de aceptar | Positivo | ✅ |
+| CP-25.2 | HU-25 · CA-02 | Existe la opción de rechazar | Positivo | ✅ |
+| CP-25.4 | HU-25 · CA-04 | Aceptar cambia el estado a en_proceso | Positivo | ✅ |
+| CP-25.5 | HU-25 · CA-05 | Rechazar cambia el estado a rechazado | Negativo | ✅ |
+| CP-26.1 | HU-26 · CA-01 | Existe la opción de finalizar | Negativo | ✅ |
+| CP-26.3 | HU-26 · CA-03 | El estado cambia a finalizado | Positivo | ✅ |
+| CP-27.2 | HU-27 · CA-02 | La puntuación está entre 1 y 5 estrellas | Límite (0/1/5) | ✅ |
+| CP-27.4 | HU-27 · CA-04 | El comentario no puede superar 300 caracteres | Límite (299/300/301) | ✅ |
 
-HU sin prueba automatizada: HU-05, 09, 12, 15, 16, 17, 21, 22, 23, 28 a 34, 36, 37, 40 y 41.
-
-## 4. Bugs encontrados
+## 4. Defectos encontrados
 
 ### BUG-01 — El registro permite continuar con un correo de formato inválido
-- **Prueba:** T08 · **HU:** HU-02 (CA-01, CA-04) · **Severidad:** Media · **Tipo:** Validación
-- **Pasos:** Registro → nombre válido, correo `esto-no-es-un-correo`, contraseña `clave123` en ambos campos → *Continuar*.
-- **Resultado esperado:** el formulario avisa que el correo no es válido en ese mismo paso, como hace el inicio de sesión ("El correo no tiene un formato válido").
-- - **Resultado obtenido:** la app avanza a la pantalla "¿Cómo usarás la app?". Solo al elegir rol y tocar *Registrarse* aparece un modal con el título "Error" y el mensaje genérico "Error al crear la cuenta", sin indicar que el correo es inválido. (Confirmado también en el dispositivo.)
-- **Evidencia:** captura `test-failed-1.png`, video `video.webm` y traza `trace.zip` en `reporte/evidencias/01-acceso-y-registro-Acces-5862f-se-en-este-mismo-formulario/`; captura adicional `T08-evidencia-correo-invalido.png`.
+- **Casos:** CP-02.1 y CP-02.4 · **HU:** HU-02 (CA-01, CA-04) · **Severidad:** Media · **Tipo:** Validación · **Ticket Jira:** SER-84
+- **Pasos:** Registro → nombre válido, correo inválido, contraseña válida en ambos campos → *Continuar*.
+- **Datos:** `abc`, `abc@`, `abc@x`, `a b@x.com` (el correo `qa.valido@correo.com` sí se acepta, como se espera).
+- **Resultado esperado:** el formulario rechaza el correo con el mensaje «El correo no tiene un formato válido» (como hace el inicio de sesión) y no avanza.
+- **Resultado obtenido:** con los cuatro valores la app avanza a «¿Cómo usarás la app?». El error aparece solo al final del registro, como un modal genérico «Error / Error al crear la cuenta» (confirmado manualmente en el dispositivo).
+- **Evidencia:** capturas, video y traza en `reporte/evidencias/` de los casos CP-02.1 y CP-02.4 (carpetas `01-registro-...`).
 - **Sugerencia:** validar el formato del correo con una expresión regular en `RegisterScreen.handleContinue`, antes de avanzar.
 
-## 5. Observaciones (no son bugs)
+## 5. Observaciones (no son defectos)
 
-- **OBS-01 — Botones deshabilitados sin explicación** (T09, T10): "Registrarse" y "Finalizar registro" quedan deshabilitados sin elegir rol o servicio, por lo que las alertas "Selecciona un rol" y "Selecciona al menos un servicio" del código nunca se muestran. El usuario no sabe por qué el botón no responde.
-- **OBS-02 — Alerta inalcanzable al calificar** (T19): en "Calificar servicio" el botón *Enviar* está deshabilitado mientras no haya estrellas, de modo que la alerta "Calificación requerida" definida en el código nunca aparece. El resultado es correcto (no se puede calificar con 0 estrellas), pero falta indicar al usuario que debe elegir estrellas.
-- **Regla verificada durante las pruebas:** si el profesional cotiza un valor distinto al presupuesto del cliente, la app exige un comentario de al menos 5 caracteres y bloquea *Continuar* hasta escribirlo.
+- **OBS-01 — Botones deshabilitados sin explicación:** «Registrarse» y «Finalizar registro» quedan deshabilitados sin elegir rol o servicio, por lo que las alertas «Selecciona un rol» y «Selecciona al menos un servicio» del código nunca se muestran.
+- **OBS-02 — Alerta inalcanzable al calificar (CP-27.2):** «Enviar» está deshabilitado con 0 estrellas, así que la alerta «Calificación requerida» nunca aparece. El comportamiento es correcto, pero no se le indica al usuario por qué no puede enviar.
+- **Reglas verificadas durante las pruebas:** si el profesional cotiza un valor distinto al presupuesto, la app exige un comentario de al menos 5 caracteres; el comentario de la calificación admite hasta 300 caracteres (CP-27.4).
 
 ## 6. Discrepancias con la documentación
 
-- **DOC-01:** la HU-11 (SER-11) habla de 10 categorías de servicio, pero la app muestra **14** (T13). Conviene actualizar la historia en Jira o revisar si hay categorías de más.
+- **DOC-01:** la HU-11 (Jira) habla de 10 categorías de servicio, pero la app muestra 14.
 
 ## 7. Conclusión
 
-En la versión web, los flujos principales funcionan: registro, inicio y cierre de sesión, ciclo completo de un servicio, rechazo con motivo, protección contra solicitudes duplicadas y calificación. Se encontró un defecto real de validación (BUG-01) y dos puntos de usabilidad (botones deshabilitados sin explicación).
+En la versión web los flujos probados cumplen los criterios de aceptación, salvo la validación del formato del correo en el registro (BUG-01). Riesgos no cubiertos por automatización: funcionamiento sin conexión y caché SQLite, notificaciones push, cámara/galería y generación de PDF; se verifican manualmente en dispositivo.
 
-**Riesgos pendientes** (no cubiertos): funcionamiento sin conexión y caché SQLite, notificaciones push, cámara/galería y generación de PDF. Se recomienda probarlos manualmente en un dispositivo antes de la entrega final. La suite se puede repetir con `npm test`, ya que deja los datos de prueba limpios.
+**Reproducibilidad:** la suite deja los datos de prueba limpios y se repite con `npm test` (ver README).

@@ -1,0 +1,94 @@
+{
+  "_nota": "Datos de prueba tomados de los casos del plan (Anexo A). Las credenciales de las cuentas NO van aquí: se leen de .env o de variables de entorno.",
+  "registro": {
+    "nombre": "QA Cliente Uno",
+    "correoValido": "qa.valido@correo.com",
+    "claveValida": "Qa1234",
+    "correosInvalidos": [
+      "abc",
+      "abc@",
+      "abc@x",
+      "a b@x.com"
+    ],
+    "contrasenasLimite": {
+      "cinco": "12345",
+      "seis": "123456",
+      "siete": "1234567"
+    },
+    "correoCP024": "abc@",
+    "mensajes": {
+      "camposObligatorios": "Todos los campos son obligatorios",
+      "claveCorta": "La contraseña debe tener al menos 6 caracteres",
+      "correoInvalido": "El correo no tiene un formato válido"
+    },
+    "preguntaRol": "¿Cómo usarás la app?",
+    "opcionesRol": {
+      "cliente": "Busco servicios para mi hogar",
+      "profesional": "Ofrezco servicios del hogar"
+    },
+    "subtituloRol": "Elige tu rol para continuar"
+  },
+  "login": {
+    "correoInexistente": "no.existe.qa@ejemplo.com",
+    "claveIncorrecta": "ClaveIncorrecta999",
+    "mensajes": {
+      "camposVacios": "Completa todos los campos",
+      "credencialesIncorrectas": "Correo o contraseña incorrectos"
+    }
+  },
+  "sesion": {
+    "alertaCierre": "Sesión cerrada"
+  },
+  "pestanas": {
+    "cliente": [
+      "Home",
+      "Buscar",
+      "Mis servicios",
+      "Mensajes",
+      "Usuario",
+      "Ajustes"
+    ],
+    "clienteNoDebeVer": [
+      "Solicitudes"
+    ],
+    "profesional": [
+      "Home",
+      "Solicitudes",
+      "Mensajes",
+      "Usuario",
+      "Ajustes"
+    ],
+    "profesionalNoDebeVer": [
+      "Buscar",
+      "Mis servicios"
+    ]
+  },
+  "servicio": {
+    "categoriaPorDefecto": "Electricidad",
+    "prefijoDescripcion": "QA automatizado",
+    "presupuesto": "80000",
+    "montoCotizado": "80000",
+    "motivoRechazo": "Rechazo QA automatizado",
+    "mensajes": {
+      "solicitudEnviada": "¡Solicitud enviada!",
+      "solicitudExistente": "Solicitud existente",
+      "solicitudExistenteDetalle": "Ya tienes un servicio activo con este profesional",
+      "motivoEnviado": "Motivo enviado al cliente"
+    }
+  },
+  "calificacion": {
+    "comentario299": 299,
+    "comentario300": 300,
+    "limiteComentario": 300,
+    "mensajeGracias": "¡Gracias!",
+    "estrellasLimite": {
+      "sin": 0,
+      "minimo": 1,
+      "maximo": 5
+    }
+  },
+  "home": {
+    "cliente": "¿Qué necesitas hoy?",
+    "profesional": "Aquí está tu resumen de hoy"
+  }
+}

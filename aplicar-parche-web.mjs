@@ -1,11 +1,12 @@
 // Prepara la app ServiHogar para poder probarla en el navegador.
 // Uso:  node aplicar-parche-web.mjs [ruta-de-la-app]     (por defecto: la carpeta superior)
 //
-// Hace 3 cosas (ninguna cambia el comportamiento en Android/iOS):
+// Hace 4 cosas (ninguna cambia el comportamiento en Android/iOS):
 //   1. Copia web-stubs/ (SQLite simulado y Alert visible en el DOM) a la raíz de la app.
 //   2. Copia metro.config.js (solo si la app no tiene uno).
 //   3. Ajusta src/services/firebaseService.js: en web usa getAuth() porque
 //      getReactNativePersistence no existe en la versión web de Firebase Auth.
+//   4. Añade testID a las estrellas de calificación (selector estable para las pruebas).
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -63,6 +64,21 @@ if (fb.includes("Platform.OS === 'web'")) {
     );
   fs.writeFileSync(fbPath, fb);
   console.log('✓ firebaseService.js parchado (copia de seguridad: firebaseService.js.orig)');
+}
+
+// 4) testID en las estrellas de calificación (selector estable; no cambia el comportamiento)
+const csPath = path.join(app, 'src', 'screens', 'ClientServicesScreen.js');
+if (!fs.existsSync(csPath)) fallar('No existe src/screens/ClientServicesScreen.js');
+let cs = fs.readFileSync(csPath, 'utf8');
+if (cs.includes('estrella-${n}')) {
+  console.log('✓ ClientServicesScreen.js ya tenía los testID de estrellas');
+} else {
+  const original = '<TouchableOpacity key={n} onPress={() => !readonly && onChange(n)} disabled={readonly}>';
+  if (!cs.includes(original)) fallar('ClientServicesScreen.js no tiene el formato esperado para añadir los testID de las estrellas.');
+  fs.copyFileSync(csPath, csPath + '.orig');
+  cs = cs.replace(original, '<TouchableOpacity key={n} testID={readonly ? undefined : `estrella-${n}`} onPress={() => !readonly && onChange(n)} disabled={readonly}>');
+  fs.writeFileSync(csPath, cs);
+  console.log('✓ ClientServicesScreen.js: testID en las estrellas (copia de seguridad: ClientServicesScreen.js.orig)');
 }
 
 console.log('\nListo. Verifica con:  cd ' + app + '  &&  npx expo start --web');
